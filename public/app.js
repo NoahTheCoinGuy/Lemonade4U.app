@@ -32,6 +32,10 @@ window.onload = () => {
   }
 };
 
+async function (signUp) {
+  window.location.href = "signup.html";
+}
+
 // 4. Sign-in page: check points
 async function checkPoints() {
   const user = document.getElementById("username").value.trim().toLowerCase();
