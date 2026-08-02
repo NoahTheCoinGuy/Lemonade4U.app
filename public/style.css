@@ -1,12 +1,27 @@
+:root {
+  --bg: #1a1a1a;
+  --text: #fffbe6;
+  --accent: #ffd84d;
+  --accent-dark: #4a3b00;
+  --input-bg: #2a2a2a;
+}
+
+.light-mode {
+  --bg: #fffdf4;
+  --text: #3a2f00;
+  --accent: #ffdd55;
+  --accent-dark: #5a4500;
+  --input-bg: #fff7d1;
+}
+
 body {
-  font-family: "Trebuchet MS", "Verdana", sans-serif;   /* softer rounded font */
+  font-family: "Trebuchet MS", "Verdana", sans-serif;
+  background: var(--bg);
+  color: var(--text);
   padding: 20px;
   max-width: 500px;
   margin: auto;
-  text-align: center;                                   /* center everything */
-  
-  background: #1a1a1a;                                  /* deep black-grey */
-  color: #fffbe6;                                       /* soft lemon-cream text */
+  text-align: center;
 }
 
 input, button, select {
@@ -14,47 +29,46 @@ input, button, select {
   padding: 14px;
   margin-top: 12px;
   font-size: 18px;
-
-  background: #2a2a2a;                                  /* dark grey input */
-  color: #fffde1;                                       /* pale lemon text */
-  border: 2px solid #ffd84d;                            /* lemonade yellow border */
-  border-radius: 10px;                                  /* softer rounded edges */
+  background: var(--input-bg);
+  color: var(--text);
+  border: 2px solid var(--accent);
+  border-radius: 10px;
 }
 
 button {
-  background: #ffd84d;                                   /* lemonade yellow */
-  color: #4a3b00;                                        /* dark honey text */
+  background: var(--accent);
+  color: var(--accent-dark);
   font-weight: bold;
   cursor: pointer;
   border-radius: 10px;
 }
 
 button:hover {
-  background: #ffe680;                                   /* brighter lemon */
+  background: var(--accent);
+  filter: brightness(1.15);
 }
 
 #adminBtn {
   position: absolute;
   top: 10px;
   right: 10px;
-
-  background: #ffd84d;
-  color: #4a3b00;
+  background: var(--accent);
+  color: var(--accent-dark);
   border-radius: 10px;
   padding: 10px 14px;
   font-weight: bold;
 }
 
 h1, h2, h3 {
-  color: #fff48c;                                        /* bright lemon headers */
+  color: var(--accent);
   text-align: center;
 }
 
 ul li {
-  background: #2a2a2a;
+  background: var(--input-bg);
   padding: 12px;
   margin-top: 10px;
-  border-left: 6px solid #ffd84d;                       /* lemonade accent bar */
+  border-left: 6px solid var(--accent);
   border-radius: 8px;
-  text-align: center;                                   /* center list items */
+  text-align: center;
 }
