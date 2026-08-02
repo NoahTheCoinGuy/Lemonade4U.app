@@ -36,9 +36,11 @@ window.onload = () => {
 async function checkPoints() {
   const user = document.getElementById("username").value.trim().toLowerCase();
   const resultDiv = document.getElementById("result");
+  const rewardsDiv = document.getElementById("availableRewards");
 
   if (!user) {
     resultDiv.innerText = "Enter a username.";
+    rewardsDiv.innerHTML = "";
     return;
   }
 
@@ -46,17 +48,41 @@ async function checkPoints() {
 
   if (!doc.exists) {
     resultDiv.innerText = "User not found";
+    rewardsDiv.innerHTML = "";
     return;
   }
 
   const data = doc.data();
-  resultDiv.innerText = `${user} has ${data.points} points`;
+  const points = data.points;
+
+  // Header
+  resultDiv.innerHTML = `
+    <h2>${user} has:</h2>
+    <h1>${points} points</h1>
+  `;
+
+  // Load rewards
+  const snapshot = await db.collection("rewards").get();
+  let available = [];
+
+  snapshot.forEach(rewardDoc => {
+    const reward = rewardDoc.data();
+    if (points >= reward.cost) {
+      available.push(`${reward.name} (${reward.cost} pts)`);
+    }
+  });
+
+  // Show available rewards
+  if (available.length === 0) {
+    rewardsDiv.innerHTML = "<p>No rewards available.</p>";
+  } else {
+    rewardsDiv.innerHTML = `
+      <h3>Available Rewards:</h3>
+      <ul>${available.map(r => `<li>${r}</li>`).join("")}</ul>
+    `;
+  }
 }
 
-// 5. Go to sign-up page
-function signUp() {
-  window.location.href = "signup.html";
-}
 
 // 6. Create account + auto-login
 async function createAccount() {
