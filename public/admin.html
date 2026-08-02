@@ -3,33 +3,37 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
-  <title>Admin Panel</title>
+  <title>Lemona Points</title>
 </head>
+
 <body>
-  <h2>Admin Login</h2>
-  <input id="passcode" placeholder="6-digit passcode">
-  <button onclick="adminLogin()">Enter</button>
 
-  <div id="adminPanel" style="display:none;">
-    <h3>Manage Points</h3>
+  <!-- Admin button -->
+  <button id="adminBtn">Admin</button>
 
-    <input id="adminUser" placeholder="Username">
+  <h2>Check Your Points</h2>
 
-    <input id="addAmount" placeholder="Add points">
-    <button onclick="addPoints()">Add</button>
+  <!-- Username input -->
+  <input id="username" placeholder="Enter your username">
 
-    <input id="removeAmount" placeholder="Remove points">
-    <button onclick="removePoints()">Remove</button>
+  <!-- Check button -->
+  <button onclick="checkPoints()">Check Points</button>
 
-    <h3>Redeem Reward</h3>
-    <select id="rewardDropdown"></select>
-    <button onclick="redeemReward()">Redeem</button>
-  </div>
+  <!-- Points + header -->
+  <div id="result"></div>
+
+  <!-- Available rewards -->
+  <div id="availableRewards"></div>
+
+  <!-- Sign up -->
+  <button onclick="signUp()">Sign Up</button>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore-compat.js"></script>
 
+  <!-- Your app logic -->
   <script src="app.js"></script>
+
 </body>
 </html>
