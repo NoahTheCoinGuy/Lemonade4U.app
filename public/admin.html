@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <title>Admin Panel</title>
+</head>
+<body>
+  <h2>Admin Login</h2>
+  <input id="passcode" placeholder="6-digit passcode">
+  <button onclick="adminLogin()">Enter</button>
+
+  <div id="adminPanel" style="display:none;">
+    <h3>Manage Points</h3>
+
+    <input id="adminUser" placeholder="Username">
+
+    <input id="addAmount" placeholder="Add points">
+    <button onclick="addPoints()">Add</button>
+
+    <input id="removeAmount" placeholder="Remove points">
+    <button onclick="removePoints()">Remove</button>
+
+    <h3>Redeem Reward</h3>
+    <select id="rewardDropdown"></select>
+    <button onclick="redeemReward()">Redeem</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore-compat.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
