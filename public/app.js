@@ -222,3 +222,87 @@ async function redeemReward() {
 
   alert(`Reward "${rewardData.name}" redeemed`);
 }
+
+// ===============================
+// REMOTE ORDERING SYSTEM
+// ===============================
+
+// Listen for new orders
+db.collection("orders").orderBy("time", "desc").onSnapshot(snapshot => {
+  const orderList = document.getElementById("orderList");
+  if (!orderList) return;
+
+  orderList.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const order = doc.data();
+
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <ul>
+        <li>
+          <strong>${order.drink}</strong><br>
+          ${new Date(order.time).toLocaleTimeString()}
+        </li>
+      </ul>
+    `;
+
+    orderList.appendChild(div);
+  });
+
+  // Speak newest order
+  if (!snapshot.empty) {
+    const newest = snapshot.docs[0].data();
+    speak(`New order: ${newest.drink}`);
+  }
+});
+
+// TTS function
+function speak(text) {
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.rate = 1.1;
+  msg.pitch = 1.0;
+  msg.volume = 1.0;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(msg);
+}
+
+// Add menu item
+async function addMenuItem() {
+  const name = document.getElementById("newItemName").value.trim();
+  const price = Number(document.getElementById("newItemPrice").value);
+
+  if (!name || isNaN(price)) {
+    alert("Enter name and price.");
+    return;
+  }
+
+  await db.collection("menu").add({ name, price });
+  alert("Item added!");
+}
+
+// Load menu items into remove dropdown
+db.collection("menu").onSnapshot(snapshot => {
+  const dropdown = document.getElementById("removeDropdown");
+  if (!dropdown) return;
+
+  dropdown.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const item = doc.data();
+    const option = document.createElement("option");
+    option.value = doc.id;
+    option.textContent = `${item.name} ($${item.price})`;
+    dropdown.appendChild(option);
+  });
+});
+
+// Remove menu item
+async function removeMenuItem() {
+  const id = document.getElementById("removeDropdown").value;
+  if (!id) return;
+
+  await db.collection("menu").doc(id).delete();
+  alert("Item removed.");
+}
+
