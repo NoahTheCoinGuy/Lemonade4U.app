@@ -3,30 +3,40 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
-  <title>Lemona Points</title>
+  <title>Admin Panel</title>
 </head>
 
 <body>
 
-  <!-- Admin button -->
-  <button id="adminBtn">Admin</button>
+  <h2>Admin Login</h2>
 
-  <h2>Check Your Points</h2>
+  <!-- Passcode input -->
+  <input id="passcode" placeholder="Enter admin passcode">
+  <button onclick="adminLogin()">Login</button>
 
-  <!-- Username input -->
-  <input id="username" placeholder="Enter your username">
+  <!-- Admin panel (hidden until login) -->
+  <div id="adminPanel" style="display:none; margin-top:20px;">
 
-  <!-- Check button -->
-  <button onclick="checkPoints()">Check Points</button>
+    <h2>Manage Points</h2>
 
-  <!-- Points + header -->
-  <div id="result"></div>
+    <!-- Username -->
+    <input id="adminUser" placeholder="Username">
 
-  <!-- Available rewards -->
-  <div id="availableRewards"></div>
+    <!-- Add points -->
+    <input id="addAmount" type="number" placeholder="Add points">
+    <button onclick="addPoints()">Add Points</button>
 
-  <!-- Sign up -->
-  <button onclick="signUp()">Sign Up</button>
+    <!-- Remove points -->
+    <input id="removeAmount" type="number" placeholder="Remove points">
+    <button onclick="removePoints()">Remove Points</button>
+
+    <h2>Redeem Reward</h2>
+
+    <!-- Rewards dropdown -->
+    <select id="rewardDropdown"></select>
+    <button onclick="redeemReward()">Redeem</button>
+
+  </div>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
