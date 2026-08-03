@@ -38,16 +38,26 @@
 
      <h2>Remote Orders</h2>
 
+<!-- Bases -->
+<h3>Drink Bases</h3>
+<input id="newBase" placeholder="New base">
+<button onclick="addBase()">Add Base</button>
+
+<select id="baseDropdown"></select>
+<button onclick="removeBase()">Remove Base</button>
+
+<!-- Flavors -->
+<h3>Flavors (Optional)</h3>
+<input id="newFlavor" placeholder="New flavor">
+<button onclick="addFlavor()">Add Flavor</button>
+
+<select id="flavorDropdown"></select>
+<button onclick="removeFlavor()">Remove Flavor</button>
+
+<!-- Orders -->
+<h3>Incoming Orders</h3>
 <div id="orderList"></div>
 
-<h3>Add Menu Item</h3>
-<input id="newItemName" placeholder="Item name">
-<input id="newItemPrice" type="number" placeholder="Price">
-<button onclick="addMenuItem()">Add Item</button>
-
-<h3>Remove Menu Item</h3>
-<select id="removeDropdown"></select>
-<button onclick="removeMenuItem()">Remove</button>
 
   </div>
 
