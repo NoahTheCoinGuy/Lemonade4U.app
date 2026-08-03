@@ -38,6 +38,20 @@
 
   </div>
 
+  <h2>Remote Orders</h2>
+
+<div id="orderList"></div>
+
+<h3>Add Menu Item</h3>
+<input id="newItemName" placeholder="Item name">
+<input id="newItemPrice" type="number" placeholder="Price">
+<button onclick="addMenuItem()">Add Item</button>
+
+<h3>Remove Menu Item</h3>
+<select id="removeDropdown"></select>
+<button onclick="removeMenuItem()">Remove</button>
+
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore-compat.js"></script>
