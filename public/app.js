@@ -227,36 +227,6 @@ async function redeemReward() {
 // REMOTE ORDERING SYSTEM
 // ===============================
 
-// Listen for new orders
-db.collection("orders").orderBy("time", "desc").onSnapshot(snapshot => {
-  const orderList = document.getElementById("orderList");
-  if (!orderList) return;
-
-  orderList.innerHTML = "";
-
-  snapshot.forEach(doc => {
-    const order = doc.data();
-
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <ul>
-        <li>
-          <strong>${order.drink}</strong><br>
-          ${new Date(order.time).toLocaleTimeString()}
-        </li>
-      </ul>
-    `;
-
-    orderList.appendChild(div);
-  });
-
-  // Speak newest order
-  if (!snapshot.empty) {
-    const newest = snapshot.docs[0].data();
-    speak(`New order: ${newest.drink}`);
-  }
-});
-
 // TTS function
 function speak(text) {
   const msg = new SpeechSynthesisUtterance(text);
@@ -267,42 +237,108 @@ function speak(text) {
   speechSynthesis.speak(msg);
 }
 
-// Add menu item
-async function addMenuItem() {
-  const name = document.getElementById("newItemName").value.trim();
-  const price = Number(document.getElementById("newItemPrice").value);
+// Listen for new orders
+db.collection("orders").orderBy("time", "desc").onSnapshot(snapshot => {
+  const orderList = document.getElementById("orderList");
+  if (!orderList) return;
 
-  if (!name || isNaN(price)) {
-    alert("Enter name and price.");
-    return;
+  orderList.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const order = doc.data();
+    const id = doc.id;
+
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <ul>
+        <li>
+          <strong>${order.base}</strong>
+          ${order.flavor ? " + " + order.flavor : ""}
+          <br>
+          ${new Date(order.time).toLocaleTimeString()}
+          <br><br>
+          <button onclick="removeOrder('${id}')">Remove Order</button>
+        </li>
+      </ul>
+    `;
+
+    orderList.appendChild(div);
+  });
+
+  // Speak newest order
+  if (!snapshot.empty) {
+    const newest = snapshot.docs[0].data();
+    const spoken = newest.flavor
+      ? `New order: ${newest.base} with ${newest.flavor}`
+      : `New order: ${newest.base}`;
+    speak(spoken);
   }
+});
 
-  await db.collection("menu").add({ name, price });
-  alert("Item added!");
+// Remove order
+async function removeOrder(id) {
+  await db.collection("orders").doc(id).delete();
+  alert("Order removed.");
 }
 
-// Load menu items into remove dropdown
-db.collection("menu").onSnapshot(snapshot => {
-  const dropdown = document.getElementById("removeDropdown");
+// Add base
+async function addBase() {
+  const name = document.getElementById("newBase").value.trim();
+  if (!name) return alert("Enter a base name.");
+  await db.collection("bases").add({ name });
+  alert("Base added!");
+}
+
+// Load bases
+db.collection("bases").onSnapshot(snapshot => {
+  const dropdown = document.getElementById("baseDropdown");
   if (!dropdown) return;
 
   dropdown.innerHTML = "";
-
   snapshot.forEach(doc => {
     const item = doc.data();
     const option = document.createElement("option");
     option.value = doc.id;
-    option.textContent = `${item.name} ($${item.price})`;
+    option.textContent = item.name;
     dropdown.appendChild(option);
   });
 });
 
-// Remove menu item
-async function removeMenuItem() {
-  const id = document.getElementById("removeDropdown").value;
+// Remove base
+async function removeBase() {
+  const id = document.getElementById("baseDropdown").value;
   if (!id) return;
-
-  await db.collection("menu").doc(id).delete();
-  alert("Item removed.");
+  await db.collection("bases").doc(id).delete();
+  alert("Base removed.");
 }
 
+// Add flavor
+async function addFlavor() {
+  const name = document.getElementById("newFlavor").value.trim();
+  if (!name) return alert("Enter a flavor name.");
+  await db.collection("flavors").add({ name });
+  alert("Flavor added!");
+}
+
+// Load flavors
+db.collection("flavors").onSnapshot(snapshot => {
+  const dropdown = document.getElementById("flavorDropdown");
+  if (!dropdown) return;
+
+  dropdown.innerHTML = "";
+  snapshot.forEach(doc => {
+    const item = doc.data();
+    const option = document.createElement("option");
+    option.value = doc.id;
+    option.textContent = item.name;
+    dropdown.appendChild(option);
+  });
+});
+
+// Remove flavor
+async function removeFlavor() {
+  const id = document.getElementById("flavorDropdown").value;
+  if (!id) return;
+  await db.collection("flavors").doc(id).delete();
+  alert("Flavor removed.");
+}
